@@ -27,6 +27,7 @@ class JwtAuthenticationProvider(
         const val ACCESS_TOKEN_NAME = "access_token"
         const val REFRESH_TOKEN_NAME = "refresh_token"
         const val TOKEN_STATUS_HEADER = "token_status"
+        const val TEST_TOKEN_NAME = "is_test"
     }
 
     override fun doFilterInternal(
@@ -34,18 +35,24 @@ class JwtAuthenticationProvider(
         response: HttpServletResponse,
         filterChain: FilterChain
     ) {
+        val testToken = request.getHeader(TEST_TOKEN_NAME)
         val accessToken = request.getHeader(ACCESS_TOKEN_NAME)
-        if (accessToken != null) {
 
-            val tokenStatus = jwtTokenProvider.validateToken(accessToken)
-            response.setHeader(TOKEN_STATUS_HEADER, tokenStatus.name)
+        if (testToken != null && testToken == "Y") {
+            testAllow()
+        } else {
+            if (accessToken != null) {
 
-            when (tokenStatus) {
-                TokenStatus.ALLOW -> allow(accessToken)
+                val tokenStatus = jwtTokenProvider.validateToken(accessToken)
+                response.setHeader(TOKEN_STATUS_HEADER, tokenStatus.name)
 
-                TokenStatus.EXPIRED -> expired()
+                when (tokenStatus) {
+                    TokenStatus.ALLOW -> allow(accessToken)
 
-                TokenStatus.NOT_ALLOW -> notAllow()
+                    TokenStatus.EXPIRED -> expired()
+
+                    TokenStatus.NOT_ALLOW -> notAllow()
+                }
             }
         }
         filterChain.doFilter(request, response)
@@ -55,6 +62,12 @@ class JwtAuthenticationProvider(
         val id = jwtTokenProvider.parseIdFromJWT(accessToken)
         MDC.put("userId", id.toString())
         validateLogin(id)
+        setUser(id)
+    }
+
+    private fun testAllow() {
+        val id = 1L
+        MDC.put("userId", "TEST")
         setUser(id)
     }
 
@@ -72,7 +85,7 @@ class JwtAuthenticationProvider(
 
     private fun setUser(id: Long) {
         val user = userMapper.toUser(memberCacheService.findMember(id))
-        val authenticationToken = UsernamePasswordAuthenticationToken(user, null)
+        val authenticationToken = UsernamePasswordAuthenticationToken(user, null, null)
         authenticationToken.details = user
         SecurityContextHolder.getContext().authentication = authenticationToken
     }

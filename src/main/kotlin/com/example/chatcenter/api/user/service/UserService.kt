@@ -1,6 +1,6 @@
 package com.example.chatcenter.api.user.service
 
-import com.example.chatcenter.api.member.domain.dto.response.MemberResponse
+import com.example.chatcenter.api.member.domain.dto.MemberDto
 import com.example.chatcenter.api.member.service.MemberService
 import com.example.chatcenter.api.member.domain.entity.Member
 import com.example.chatcenter.api.user.domain.dto.JwtToken
@@ -13,7 +13,6 @@ import com.example.chatcenter.api.user.domain.dto.JoinRequest
 import com.example.chatcenter.api.user.domain.dto.User
 import com.example.chatcenter.api.user.domain.mapper.JoinRequestMapper
 import com.example.chatcenter.common.exception.ResponseException
-import com.example.chatcenter.common.function.user
 import com.example.chatcenter.common.http.constant.ResponseCode
 import com.example.chatcenter.common.security.constant.TokenStatus
 import com.example.chatcenter.common.security.provider.JwtTokenProvider
@@ -30,7 +29,7 @@ class UserService(
 
     private val joinRequestMapper: JoinRequestMapper = Mappers.getMapper(JoinRequestMapper::class.java)
 
-    fun getUser(): MemberResponse {
+    fun getUser(): MemberDto {
         return userMapper.toMemberResponse(SecurityContextHolder.getContext().authentication.details as User)
     }
 

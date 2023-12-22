@@ -79,16 +79,18 @@ class LoggingFilter : Filter {
             request,
             ContentCachingRequestWrapper::class.java
         )
-        if (wrapper != null) {
-            val buf = wrapper.contentAsByteArray
-            if (buf.isNotEmpty()) {
-                return try {
+        try {
+            if (wrapper != null) {
+                val buf = wrapper.contentAsByteArray
+                if (buf.isNotEmpty()) {
                     val jsonString = String(buf, 0, buf.size, charset(wrapper.characterEncoding))
-                    objectMapper.readValue<Map<String, Any?>>(jsonString)
-                } catch (e: UnsupportedEncodingException) {
-                    null
+                    return objectMapper.readValue<Map<String, Any?>>(jsonString)
                 }
             }
+        } catch (e: UnsupportedEncodingException) {
+            return null
+        } catch (e: Exception) {
+            return null
         }
         return null
     }

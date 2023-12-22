@@ -1,12 +1,12 @@
 package com.example.chatcenter.api.user.domain.mapper
 
-import com.example.chatcenter.api.member.domain.dto.response.MemberResponse
+import com.example.chatcenter.api.member.domain.dto.MemberDto
 import com.example.chatcenter.api.member.domain.entity.Member
 import com.example.chatcenter.api.user.domain.dto.User
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
-import com.example.chatcenter.common.annotation.encrypt.Decrypt
-import com.example.chatcenter.common.annotation.encrypt.Encrypt
+import com.example.chatcenter.common.encrypt.annotation.Decrypt
+import com.example.chatcenter.common.encrypt.annotation.Encrypt
 import com.example.chatcenter.common.util.EncryptUtil
 
 @Mapper(uses = [EncryptUtil::class])
@@ -22,5 +22,5 @@ interface UserMapper {
     @Mapping(source = "phoneNumber", target = "phoneNumber", qualifiedBy = [Decrypt::class])
     fun toUser(entity: Member): User
 
-    fun toMemberResponse(dto: User): MemberResponse
+    fun toMemberResponse(dto: User): MemberDto
 }

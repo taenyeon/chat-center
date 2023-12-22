@@ -4,8 +4,8 @@ import com.example.chatcenter.api.user.domain.dto.JoinRequest
 import com.example.chatcenter.api.member.domain.entity.Member
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
-import com.example.chatcenter.common.annotation.encrypt.Encrypt
-import com.example.chatcenter.common.annotation.encrypt.PasswordEncrypt
+import com.example.chatcenter.common.encrypt.annotation.Encrypt
+import com.example.chatcenter.common.encrypt.annotation.PasswordEncrypt
 import com.example.chatcenter.common.interfaces.EntityMapper
 import com.example.chatcenter.common.util.EncryptUtil
 

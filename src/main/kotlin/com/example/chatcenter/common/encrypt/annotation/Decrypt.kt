@@ -1,4 +1,4 @@
-package com.example.chatcenter.common.annotation.encrypt
+package com.example.chatcenter.common.encrypt.annotation
 
 import org.mapstruct.Qualifier
 

@@ -1,7 +1,7 @@
 package com.example.chatcenter.api.member.service
 
 import com.example.chatcenter.api.member.domain.mapper.MemberDtoMapper
-import com.example.chatcenter.api.member.domain.dto.response.MemberResponse
+import com.example.chatcenter.api.member.domain.dto.MemberDto
 import com.example.chatcenter.api.member.domain.entity.Member
 import com.example.chatcenter.api.member.repository.MemberRepository
 import org.mapstruct.factory.Mappers
@@ -55,11 +55,11 @@ class MemberService(
     }
 
     // Dto
-    fun findMemberDto(username: String): MemberResponse {
+    fun findMemberDto(username: String): MemberDto {
         return memberDtoMapper.toDto(findMember(username))
     }
 
-    fun findMemberDto(id: Long): MemberResponse {
+    fun findMemberDto(id: Long): MemberDto {
         return memberDtoMapper.toDto(findMember(id))
     }
 }

@@ -24,7 +24,7 @@ class UserController(
         return ResponseCode.SUCCESS.toResponse(userService.getUser())
     }
 
-    @PostMapping("")
+    @PostMapping("/join")
     fun join(@RequestBody joinRequest: JoinRequest): ResponseEntity<Response> {
         return ResponseCode.SUCCESS.toResponse(userService.join(joinRequest))
     }
@@ -42,18 +42,17 @@ class UserController(
         return ResponseCode.SUCCESS.toResponse()
     }
 
-    @GetMapping("/accessToken")
-    fun reIssueAccessToken(@RequestHeader(name = "refresh_token") refreshToken: String?): ResponseEntity<Response> {
+    @PostMapping("/accessToken")
+    fun reIssueAccessToken(@RequestBody jwtToken: JwtToken): ResponseEntity<Response> {
+        val refreshToken = jwtToken.refreshToken
+        log.info("refreshToken : $refreshToken")
 
-        if (refreshToken.isNullOrBlank()) {
-            throw ResponseException(ResponseCode.INVALID_REQUEST_PARAM)
-        }
-
-        val jwtToken = JwtToken(
+        if (refreshToken.isBlank()) throw ResponseException(ResponseCode.INVALID_REQUEST_PARAM)
+        val resultJwtToken = JwtToken(
             userService.reIssueAccessToken(refreshToken),
             refreshToken
         )
-        return ResponseCode.SUCCESS.toResponse(jwtToken)
+        return ResponseCode.SUCCESS.toResponse(resultJwtToken)
     }
 
 

@@ -3,11 +3,10 @@ package com.example.chatcenter.common.util
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
-import com.example.chatcenter.common.annotation.encrypt.Decrypt
-import com.example.chatcenter.common.annotation.encrypt.Encrypt
-import com.example.chatcenter.common.annotation.encrypt.PasswordEncrypt
+import com.example.chatcenter.common.encrypt.annotation.Decrypt
+import com.example.chatcenter.common.encrypt.annotation.Encrypt
+import com.example.chatcenter.common.encrypt.annotation.PasswordEncrypt
 import com.example.chatcenter.common.exception.ResponseException
-import com.example.chatcenter.common.function.logger
 import com.example.chatcenter.common.http.constant.ResponseCode
 import java.util.*
 import javax.crypto.Cipher
@@ -40,7 +39,6 @@ class EncryptUtil {
     @Decrypt
     fun decrypt(data: String): String {
         try {
-            logger().info("decrypt Target : $data")
             val cipher = Cipher.getInstance(alg)
             val keySpec = SecretKeySpec(iv.toByteArray(), "AES")
             val ivParamSpec = IvParameterSpec(iv.toByteArray())

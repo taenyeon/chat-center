@@ -3,6 +3,7 @@ package com.example.chatcenter.common.security.config
 import com.example.chatcenter.common.security.provider.JwtAuthenticationProvider
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer
@@ -31,6 +32,7 @@ class SecurityConfig(private val jwtAuthenticationProvider: JwtAuthenticationPro
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
             .addFilterBefore(jwtAuthenticationProvider, UsernamePasswordAuthenticationFilter::class.java)
             .authorizeHttpRequests { auth -> settingUrlFilter(auth) }
+            .httpBasic(Customizer.withDefaults())
             .formLogin { it.disable() }
             .logout { it.disable() }
 
@@ -53,8 +55,10 @@ class SecurityConfig(private val jwtAuthenticationProvider: JwtAuthenticationPro
     private fun settingUrlFilter(auth: AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry) {
         auth.requestMatchers(
             "/test/**",
-            "/api/**",
-            "/api/user/login"
+            "/api/user/login",
+            "/api/user/join",
+            "/error",
+            "/api/user/accessToken"
         )
             .permitAll()
             .anyRequest()

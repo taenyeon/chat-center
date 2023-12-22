@@ -1,16 +1,18 @@
 package com.example.chatcenter.common.application
 
 import com.example.chatcenter.common.filter.LoggingFilter
+import com.example.chatcenter.common.paging.QueryStringArgumentResolver
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import org.springframework.boot.web.servlet.FilterRegistrationBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.web.method.support.HandlerMethodArgumentResolver
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 @Configuration
-class ApplicationConfig : WebMvcConfigurer {
+class ApplicationConfig(private val queryString: QueryStringArgumentResolver) : WebMvcConfigurer {
 
 
     @Bean
@@ -18,6 +20,10 @@ class ApplicationConfig : WebMvcConfigurer {
         val filterRegistrationBean = FilterRegistrationBean(LoggingFilter())
         filterRegistrationBean.order = Int.MIN_VALUE
         return filterRegistrationBean
+    }
+
+    override fun addArgumentResolvers(argumentResolvers: MutableList<HandlerMethodArgumentResolver>) {
+        argumentResolvers.add(queryString)
     }
 
     @Bean

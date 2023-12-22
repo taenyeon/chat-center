@@ -23,7 +23,7 @@ class JwtTokenProvider(
         const val JWT_SECRET = "Y2hvcHBhLWRvbnQtYml0ZS1tZS1zcHJpbmctYm9vdC1qd3QtdGVzdC1zZWNyZXQta2V5LWNob3BwYS1kb250LWJpdGUtbWUtc3ByaW5nLWJvb3Qtand0LXRlc3Qtc2VjcmV0LWtleQo"
         const val REFRESH_TOKEN_KEY = "refreshToken::"
 
-        val ACCESS_TOKEN_EXPIRATION_MS = Duration.ofMinutes(10).toMillis()
+        val ACCESS_TOKEN_EXPIRATION_MS = Duration.ofSeconds(10).toMillis()
         val REFRESH_TOKEN_EXPIRATION_MS = Duration.ofDays(2).toMillis()
     }
 
@@ -83,17 +83,15 @@ class JwtTokenProvider(
     }
 
     fun validateToken(token: String): TokenStatus {
-        try {
+        return try {
             Jwts.parser()
                 .setSigningKey(JWT_SECRET)
                 .parseClaimsJws(token)
-            return TokenStatus.ALLOW
+            TokenStatus.ALLOW
         } catch (e: ExpiredJwtException) {
-            e.printStackTrace()
-            return TokenStatus.EXPIRED
+            TokenStatus.EXPIRED
         } catch (e: Exception) {
-            e.printStackTrace()
-            return TokenStatus.NOT_ALLOW
+            TokenStatus.NOT_ALLOW
         }
     }
 
