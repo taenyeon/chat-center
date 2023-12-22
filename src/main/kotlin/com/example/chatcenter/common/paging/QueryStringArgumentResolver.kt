@@ -23,7 +23,7 @@ class QueryStringArgumentResolver : HandlerMethodArgumentResolver {
         webRequest: NativeWebRequest,
         binderFactory: WebDataBinderFactory?
     ): Any? {
-        val request: HttpServletRequest = webRequest as HttpServletRequest
+        val request: HttpServletRequest = webRequest.getNativeRequest(HttpServletRequest::class.java)!!
         val queryStringJson = queryStringToJson(request.queryString)
         return objectMapper.readValue(queryStringJson, parameter.parameterType)
     }
