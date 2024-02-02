@@ -10,6 +10,7 @@ import com.example.chatcenter.common.exception.ResponseException
 import com.example.chatcenter.common.function.encrypt
 import com.example.chatcenter.common.function.logger
 import com.example.chatcenter.common.http.constant.ResponseCode
+import org.springframework.data.repository.findByIdOrNull
 
 @Service
 class MemberService(
@@ -22,8 +23,6 @@ class MemberService(
 
 
     // Entity
-
-
     fun addMember(member: Member) {
         checkExistMember(member.username!!)
         memberRepository.save(member)
@@ -41,17 +40,18 @@ class MemberService(
     fun findMember(username: String): Member {
         log.info("username : $username")
         return memberRepository.findByUsername(username.encrypt())
-            .orElseThrow { ResponseException(ResponseCode.NOT_FOUND_ERROR) }
+            ?: throw ResponseException(ResponseCode.NOT_FOUND_ERROR)
     }
 
     fun checkExistMember(username: String) {
-        memberRepository.findByUsername(username.encrypt())
-            .ifPresent { throw ResponseException(ResponseCode.EXIST_MEMBER) }
+        if (memberRepository.findByUsername(username.encrypt()) != null) {
+            throw ResponseException(ResponseCode.EXIST_MEMBER)
+        }
     }
 
     fun findMember(id: Long): Member {
-        return memberRepository.findById(id)
-            .orElseThrow { ResponseException(ResponseCode.NOT_FOUND_ERROR) }
+        return memberRepository.findByIdOrNull(id)
+            ?: throw ResponseException(ResponseCode.NOT_FOUND_ERROR)
     }
 
     // Dto

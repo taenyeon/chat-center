@@ -11,8 +11,8 @@ import com.example.chatcenter.common.function.user
 import com.example.chatcenter.common.http.constant.ResponseCode
 import org.mapstruct.factory.Mappers
 import org.springframework.data.domain.Page
-import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 @Service
@@ -21,42 +21,51 @@ class BoardService(
 ) {
     val log = logger()
 
+    // MapStruct
     private val boardDtoMapper: BoardDtoMapper = Mappers.getMapper(BoardDtoMapper::class.java)
     private val memberDtoMapper: MemberDtoMapper = Mappers.getMapper(MemberDtoMapper::class.java)
-    fun addBoard(boardDto: BoardDto){
+
+    //Entity
+    fun add(boardDto: BoardDto) {
         boardDto.member = memberDtoMapper.toDto(user())
         val save = boardRepository.save(boardDtoMapper.toEntity(boardDto))
         log.info("save : ${save.id}")
     }
 
-    fun findBoard(id: Long): BoardDto {
-        val board = boardRepository.findById(id)
-            .orElseThrow { throw ResponseException(ResponseCode.NOT_FOUND_ERROR) }
-        return boardDtoMapper.toDto(board)
+    fun select(id: Long): Board {
+        return boardRepository.findByIdOrNull(id)
+            ?: throw ResponseException(ResponseCode.NOT_FOUND_ERROR)
     }
 
-    fun findBoards(pageRequest: PageRequest): Page<BoardDto> {
+    fun selectList(pageRequest: PageRequest): Page<BoardDto> {
         return boardRepository.findAll(pageRequest)
             .map { board -> boardDtoMapper.toDto(board) }
     }
 
-    fun deleteBoard(id: Long) {
-        val board = boardRepository.findById(id)
-            .orElseThrow { throw ResponseException(ResponseCode.NOT_FOUND_ERROR) }
-        checkOwn(board.member.id!!)
+    fun delete(userId: Long, id: Long) {
+        val board = select(id)
+        checkOwn(userId, board.member.id!!)
         boardRepository.delete(board)
     }
 
-    fun modifyBoard(id: Long, boardDto: BoardDto) {
-        val board = boardRepository.findById(id)
-            .orElseThrow { throw ResponseException(ResponseCode.NOT_FOUND_ERROR) }
-        checkOwn(board.member.id!!)
+    fun modify(userId: Long, id: Long, boardDto: BoardDto) {
+        val board = boardRepository.findByIdOrNull(id)
+            ?: throw ResponseException(ResponseCode.NOT_FOUND_ERROR)
+        checkOwn(userId, board.member.id!!)
         val merge = boardDtoMapper.merge(board, boardDto)
         boardRepository.save(merge)
     }
 
-    fun checkOwn(id: Long) {
-        if (user().id != id) throw ResponseException(ResponseCode.ACCESS_DENIED_ERROR)
+    // Dto
+    fun findDto(id: Long): BoardDto {
+        val board = boardRepository.findByIdOrNull(id)
+            ?: throw ResponseException(ResponseCode.NOT_FOUND_ERROR)
+        return boardDtoMapper.toDto(board)
+    }
+
+    // Etc
+    fun checkOwn(userId: Long, id: Long) {
+        if (userId != id) throw ResponseException(ResponseCode.ACCESS_DENIED_ERROR)
     }
 
 }

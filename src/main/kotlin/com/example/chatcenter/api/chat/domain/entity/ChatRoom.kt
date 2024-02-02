@@ -1,4 +1,4 @@
-package com.example.chatcenter.api.board.domain.entity
+package com.example.chatcenter.api.chat.domain.entity
 
 import au.com.console.kassava.kotlinEquals
 import au.com.console.kassava.kotlinHashCode
@@ -8,27 +8,25 @@ import com.example.chatcenter.common.jpa.entity.BaseTimeEntity
 import jakarta.persistence.*
 
 @Entity
-@Table(name = "board")
-class Board(
+@Table(name = "chat_room")
+class ChatRoom(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long?,
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    var member: Member,
-    var title : String,
-    var payload : String,
-    var isDeleted: Boolean
-) : BaseTimeEntity() {
+    var id: String?,
+    var name: String?,
+    var hostId: Long?,
+
+    ) : BaseTimeEntity() {
     override fun toString() = kotlinToString(properties = toStringProperties)
     override fun equals(other: Any?) = kotlinEquals(other = other, properties = equalsAndHashCodeProperties)
     override fun hashCode() = kotlinHashCode(properties = equalsAndHashCodeProperties)
 
     companion object {
-        private val equalsAndHashCodeProperties = arrayOf(Board::id)
+        private val equalsAndHashCodeProperties = arrayOf(ChatRoom::id)
         private val toStringProperties = arrayOf(
-            Board::id,
-            Board::title,
+            ChatRoom::id,
+            ChatRoom::name,
+            ChatRoom::hostId,
         )
     }
 }

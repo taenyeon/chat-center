@@ -21,7 +21,7 @@ class ReturnTypeCacheResolver(
     }
 
     override fun resolveCaches(context: CacheOperationInvocationContext<*>): MutableCollection<out Cache> {
-        val cacheNames = getCacheNames(context) ?: return Collections.emptyList()
+        val cacheNames = getCacheNames(context)
 
         val result = mutableListOf<Cache>()
         cacheNames.forEach { cacheName ->
