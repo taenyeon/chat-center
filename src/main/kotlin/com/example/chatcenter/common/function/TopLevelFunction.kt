@@ -5,6 +5,8 @@ import com.example.chatcenter.api.user.domain.dto.User
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextHolder
 import com.example.chatcenter.api.user.domain.mapper.UserMapper
+import com.example.chatcenter.common.exception.ResponseException
+import com.example.chatcenter.common.http.constant.ResponseCode
 import com.example.chatcenter.common.util.EncryptUtil
 
 // LOGGING

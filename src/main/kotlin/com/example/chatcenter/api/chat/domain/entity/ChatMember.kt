@@ -10,6 +10,7 @@ import jakarta.persistence.*
 @Table(name = "chat_member")
 class ChatMember(
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long?,
     var memberId: Long,
     var roomId: String,

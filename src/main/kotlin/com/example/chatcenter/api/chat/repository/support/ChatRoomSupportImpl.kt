@@ -4,13 +4,15 @@ import com.example.chatcenter.api.chat.domain.entity.ChatRoom
 import com.example.chatcenter.api.chat.domain.entity.QChatMember.chatMember
 import com.example.chatcenter.api.chat.domain.entity.QChatRoom.chatRoom
 import com.example.chatcenter.api.chat.repository.support.interfaces.ChatRoomSupport
-import com.example.chatcenter.api.member.domain.entity.QMember.member
 import com.querydsl.jpa.impl.JPAQueryFactory
+import org.springframework.stereotype.Repository
+import org.springframework.stereotype.Service
 
+@Repository
 class ChatRoomSupportImpl(
     private val queryFactory: JPAQueryFactory,
 ) : ChatRoomSupport {
-    override fun findByMemberId(memberId: Long): List<ChatRoom> {
+    override fun findByMemberId(memberId: Long): MutableList<ChatRoom> {
         return queryFactory
             .select(chatRoom)
             .from(chatMember)

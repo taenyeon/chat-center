@@ -4,7 +4,7 @@ import com.example.chatcenter.api.chat.domain.entity.ChatMember
 import com.example.chatcenter.api.chat.domain.entity.ChatRoom
 import com.example.chatcenter.api.chat.repository.ChatMemberRepository
 import com.example.chatcenter.api.chat.repository.ChatRoomRepository
-import com.example.chatcenter.api.member.domain.entity.Member
+import com.example.chatcenter.api.chat.repository.support.ChatRoomSupportImpl
 import com.example.chatcenter.common.exception.ResponseException
 import com.example.chatcenter.common.http.constant.ResponseCode
 import org.springframework.data.repository.findByIdOrNull
@@ -15,6 +15,7 @@ import java.util.UUID
 class ChatRoomService(
     private val chatRoomRepository: ChatRoomRepository,
     private val chatMemberRepository: ChatMemberRepository,
+    private val chatRoomSupport: ChatRoomSupportImpl
 ) {
 
     fun select(roomId: String): ChatRoom {
@@ -22,9 +23,19 @@ class ChatRoomService(
             ?: throw ResponseException(ResponseCode.NOT_FOUND_ERROR)
     }
 
-    fun selectList(userId: Long): MutableList<ChatRoom> {
+    fun select(memberId: Long, roomId: String): ChatRoom {
+        return chatRoomSupport.findByMemberIdAndRoomId(memberId, roomId)
+            ?: throw ResponseException(ResponseCode.NOT_FOUND_ERROR)
+    }
+
+    fun selectList(memberId: Long): MutableList<ChatRoom> {
+        return chatRoomSupport.findByMemberId(memberId)
+    }
+
+    fun selectListByHost(userId: Long): MutableList<ChatRoom> {
         return chatRoomRepository.findAllByHostId(userId)
     }
+
 
     fun add(userId: Long, name: String): String {
         // create room
@@ -35,6 +46,14 @@ class ChatRoomService(
         //  init member
         val chatMember = ChatMember(null, userId, roomId)
         chatMemberRepository.save(chatMember)
+        return roomId
+    }
+
+    fun add(userId: Long, name: String, memberIds: MutableList<Long>): String {
+        val roomId = add(userId, name)
+        memberIds.forEach { memberId: Long ->
+            chatMemberRepository.save(ChatMember(null, memberId, roomId))
+        }
         return roomId
     }
 

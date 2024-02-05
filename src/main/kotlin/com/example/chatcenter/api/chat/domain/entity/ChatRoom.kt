@@ -11,7 +11,6 @@ import jakarta.persistence.*
 @Table(name = "chat_room")
 class ChatRoom(
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: String?,
     var name: String?,
     var hostId: Long?,

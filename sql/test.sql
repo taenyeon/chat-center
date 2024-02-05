@@ -24,15 +24,18 @@ create table board
 
 create table chat_room
 (
-    id     varchar(100) primary key auto_increment comment 'SEQ',
-    hostId bigint       not null comment '방장 회원 SEQ',
-    name   varchar(100) not null comment '채팅방 이름'
+    id         varchar(100) primary key comment 'SEQ',
+    host_id     bigint       not null comment '방장 회원 SEQ',
+    name       varchar(100) not null comment '채팅방 이름',
+    created_at datetime     not null default now() comment '생성일',
+    updated_at datetime     not null default now() comment '수정일'
 ) comment '채팅방 테이블';
 
 create table chat_member
 (
-    id bigint primary key auto_increment comment 'SEQ',
-    user_id bigint not null comment '회원 SEQ',
-    room_id bigint not null comment '채팅방 SEQ'
+    id      bigint primary key auto_increment comment 'SEQ',
+    member_id bigint not null comment '회원 SEQ',
+    room_id varchar(100) not null comment '채팅방 SEQ',
+    created_at datetime      not null default now() comment '생성일',
+    updated_at datetime      not null default now() comment '수정일'
 ) comment '채팅방 <-> 회원 매핑 테이블';
-
