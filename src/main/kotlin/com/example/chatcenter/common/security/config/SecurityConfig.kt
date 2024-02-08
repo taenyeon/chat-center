@@ -45,6 +45,7 @@ class SecurityConfig(private val jwtAuthenticationProvider: JwtAuthenticationPro
         corsConfiguration.addAllowedOriginPattern("*")
         corsConfiguration.allowedMethods = listOf("HEAD", "GET", "POST", "PUT", "DELETE")
         corsConfiguration.addAllowedHeader("*")
+        corsConfiguration.allowCredentials = true
         corsConfiguration.maxAge = 3600
         val source: UrlBasedCorsConfigurationSource = UrlBasedCorsConfigurationSource()
         source.registerCorsConfiguration("/**", corsConfiguration)
@@ -56,6 +57,7 @@ class SecurityConfig(private val jwtAuthenticationProvider: JwtAuthenticationPro
         auth.requestMatchers(
             "/test/**",
             "/api/user/login",
+            "/api/user/logout",
             "/api/user/join",
             "/error",
             "/api/user/accessToken"
