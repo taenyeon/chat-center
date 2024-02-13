@@ -65,6 +65,7 @@ dependencies {
 
     // TEST
     testImplementation("org.springframework.boot:spring-boot-starter-test:3.1.0")
+    testImplementation ("org.springframework.kafka:spring-kafka-test")
 
     // MAPPING
     implementation("org.mapstruct:mapstruct:1.5.3.Final")
@@ -73,6 +74,9 @@ dependencies {
 
     // CUSTOM toString & equals & hashCode
     implementation("com.github.consoleau:kassava:2.1.0")
+
+    // MESSAGING
+    implementation ("org.springframework.kafka:spring-kafka")
 
 }
 
