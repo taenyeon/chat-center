@@ -4,15 +4,18 @@ import com.example.chatcenter.api.chat.domain.entity.ChatMessage
 import com.example.chatcenter.api.chat.repository.ChatMessageRepository
 import com.example.chatcenter.common.exception.ResponseException
 import com.example.chatcenter.common.http.constant.ResponseCode
+import com.example.chatcenter.common.message.kafka.Producer
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
 @Service
 class ChatMessageService(
-    private val chatMessageRepository: ChatMessageRepository
+    private val chatMessageRepository: ChatMessageRepository,
+    private val producer: Producer
 ) {
     fun add(chatMessage: ChatMessage) {
+        producer.sendMessage(chatMessage)
         chatMessageRepository.save(chatMessage)
     }
 

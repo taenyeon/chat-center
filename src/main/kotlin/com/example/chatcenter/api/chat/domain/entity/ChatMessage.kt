@@ -11,7 +11,7 @@ import java.time.LocalDateTime
 @Document(collation = "message")
 class ChatMessage(
     @MongoId
-    var _id: String?,
+    var id: String?,
     var roomId: String?,
     var memberId: Long?,
     var payload: String?,
@@ -24,9 +24,9 @@ class ChatMessage(
     override fun hashCode() = kotlinHashCode(properties = equalsAndHashCodeProperties)
 
     companion object {
-        private val equalsAndHashCodeProperties = arrayOf(ChatMessage::_id)
+        private val equalsAndHashCodeProperties = arrayOf(ChatMessage::id)
         private val toStringProperties = arrayOf(
-            ChatMessage::_id,
+            ChatMessage::id,
             ChatMessage::roomId,
             ChatMessage::memberId,
         )

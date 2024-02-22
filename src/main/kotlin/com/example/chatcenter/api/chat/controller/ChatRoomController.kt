@@ -26,6 +26,12 @@ class ChatRoomController(
         return ResponseCode.SUCCESS.toResponse(chatRoomService.select(roomId))
     }
 
+    @GetMapping("/my")
+    fun selectList(): ResponseEntity<Response>{
+        return ResponseCode.SUCCESS.toResponse(chatRoomService.selectList(user().id!!));
+    }
+
+
     @DeleteMapping("/{roomId}")
     fun delete(@PathVariable roomId: String): ResponseEntity<Response> {
         return ResponseCode.SUCCESS.toResponse(chatRoomService.delete(user().id!!, roomId))
