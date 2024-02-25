@@ -6,6 +6,7 @@ import com.example.chatcenter.common.http.constant.ResponseCode
 import com.example.chatcenter.common.http.domain.Response
 import com.example.chatcenter.common.message.kafka.Producer
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -19,6 +20,11 @@ class ChatController(
     @PostMapping("")
     fun add(@RequestBody message: ChatMessage): ResponseEntity<Response> {
         return ResponseCode.SUCCESS.toResponse(chatMessageService.add(message));
+    }
+
+    @GetMapping("")
+    fun select(){
+
     }
 
 

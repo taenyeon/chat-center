@@ -15,9 +15,8 @@ class ChatMessage(
     var roomId: String?,
     var memberId: Long?,
     var payload: String?,
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    var issuedDateTime: LocalDateTime
-
+    var issuedDateTime: LocalDateTime = LocalDateTime.now(),
+    var createdAt: Int,
 ) {
     override fun toString() = kotlinToString(properties = toStringProperties)
     override fun equals(other: Any?) = kotlinEquals(other = other, properties = equalsAndHashCodeProperties)

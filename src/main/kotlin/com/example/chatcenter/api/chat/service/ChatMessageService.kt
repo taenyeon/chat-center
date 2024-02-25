@@ -16,11 +16,10 @@ class ChatMessageService(
 ) {
     fun add(chatMessage: ChatMessage) {
         producer.sendMessage(chatMessage)
-        chatMessageRepository.save(chatMessage)
     }
 
-    fun select(_id: String): ChatMessage {
-        return chatMessageRepository.findByIdOrNull(_id)
+    fun select(id: String): ChatMessage {
+        return chatMessageRepository.findByIdOrNull(id)
             ?: throw ResponseException(ResponseCode.NOT_FOUND_ERROR)
     }
 

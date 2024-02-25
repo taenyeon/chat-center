@@ -23,7 +23,7 @@ class JwtTokenProvider(
         const val JWT_SECRET = "Y2hvcHBhLWRvbnQtYml0ZS1tZS1zcHJpbmctYm9vdC1qd3QtdGVzdC1zZWNyZXQta2V5LWNob3BwYS1kb250LWJpdGUtbWUtc3ByaW5nLWJvb3Qtand0LXRlc3Qtc2VjcmV0LWtleQo"
         const val REFRESH_TOKEN_KEY = "refreshToken::"
 
-        val ACCESS_TOKEN_EXPIRATION_MS = Duration.ofMinutes(30).toMillis()
+        val ACCESS_TOKEN_EXPIRATION_MS = Duration.ofSeconds(30).toMillis()
         val REFRESH_TOKEN_EXPIRATION_MS = Duration.ofDays(2).toMillis()
     }
 
