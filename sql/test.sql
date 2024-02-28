@@ -39,3 +39,10 @@ create table chat_member
     created_at datetime      not null default now() comment '생성일',
     updated_at datetime      not null default now() comment '수정일'
 ) comment '채팅방 <-> 회원 매핑 테이블';
+
+create table member_connect
+(
+    id bigint primary key comment '회원 SEQ',
+    is_connected boolean not null default false comment '접속 여부',
+    last_connected_at datetime not null default now() comment '마지막 접속일'
+) comment '회원 접속 기록 테이블 (Socket 접속 여부)';

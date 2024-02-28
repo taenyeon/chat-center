@@ -31,7 +31,7 @@ class ChatMessageService(
         return chatMessageRepository.findAllByRoomIdAndMemberId(roomId, memberId)
     }
 
-    fun selectList(roomId: String, startDateTime: LocalDateTime, endDateTime: LocalDateTime): List<ChatMessage> {
-        return chatMessageRepository.findAllByRoomIdAndIssuedDateTimeBetween(roomId, startDateTime, endDateTime)
+    fun selectList(roomId: String, startCreatedAt:Long, endCreatedAt:Long): List<ChatMessage> {
+        return chatMessageRepository.findAllByRoomIdAndCreatedAtBetween(roomId, startCreatedAt, endCreatedAt)
     }
 }

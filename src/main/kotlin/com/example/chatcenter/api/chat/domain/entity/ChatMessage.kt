@@ -15,8 +15,7 @@ class ChatMessage(
     var roomId: String?,
     var memberId: Long?,
     var payload: String?,
-    var issuedDateTime: LocalDateTime = LocalDateTime.now(),
-    var createdAt: Int,
+    var createdAt: Long = System.currentTimeMillis(),
 ) {
     override fun toString() = kotlinToString(properties = toStringProperties)
     override fun equals(other: Any?) = kotlinEquals(other = other, properties = equalsAndHashCodeProperties)

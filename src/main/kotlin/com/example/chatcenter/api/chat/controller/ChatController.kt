@@ -23,12 +23,14 @@ class ChatController(
     }
 
     @GetMapping("")
-    fun select(){
+    fun select() {
 
     }
 
+    @GetMapping("/time")
+    fun selectBetweenTime() {
 
-
+    }
 
 
 }
