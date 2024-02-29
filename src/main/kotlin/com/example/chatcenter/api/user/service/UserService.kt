@@ -29,7 +29,7 @@ class UserService(
 
     private val joinRequestMapper: JoinRequestMapper = Mappers.getMapper(JoinRequestMapper::class.java)
 
-    fun getUser(): MemberDto {
+    fun findUser(): MemberDto {
         return userMapper.toMemberResponse(SecurityContextHolder.getContext().authentication.details as User)
     }
 

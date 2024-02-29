@@ -21,7 +21,7 @@ class UserController(
 
     @GetMapping("")
     fun my(): ResponseEntity<Response> {
-        return ResponseCode.SUCCESS.toResponse(userService.getUser())
+        return ResponseCode.SUCCESS.toResponse(userService.findUser())
     }
 
     @PostMapping("/join")

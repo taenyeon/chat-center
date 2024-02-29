@@ -54,6 +54,10 @@ class MemberService(
             ?: throw ResponseException(ResponseCode.NOT_FOUND_ERROR)
     }
 
+    fun findMemberList(): MutableList<Member> {
+        return memberRepository.findAll()
+    }
+
     // Dto
     fun findMemberDto(username: String): MemberDto {
         return memberDtoMapper.toDto(findMember(username))
@@ -62,4 +66,11 @@ class MemberService(
     fun findMemberDto(id: Long): MemberDto {
         return memberDtoMapper.toDto(findMember(id))
     }
+
+    fun findMemberDtoList(): List<MemberDto> {
+        return memberRepository.findAll()
+            .map { member -> memberDtoMapper.toDto(member) }
+    }
+
+
 }

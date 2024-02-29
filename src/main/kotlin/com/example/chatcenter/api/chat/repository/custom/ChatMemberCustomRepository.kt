@@ -1,18 +1,16 @@
-package com.example.chatcenter.api.chat.repository.support
+package com.example.chatcenter.api.chat.repository.custom
 
 import com.example.chatcenter.api.chat.domain.entity.QChatMember.chatMember
-import com.example.chatcenter.api.chat.domain.entity.QChatRoom.chatRoom
-import com.example.chatcenter.api.chat.repository.support.interfaces.ChatMemberSupport
 import com.example.chatcenter.api.member.domain.entity.Member
 import com.example.chatcenter.api.member.domain.entity.QMember.member
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository
 
 @Repository
-class ChatMemberSupportImpl(
+class ChatMemberCustomRepository(
     private val queryFactory: JPAQueryFactory,
-) : ChatMemberSupport {
-    override fun findAllMemberByRoomId(roomId: String): MutableList<Member> {
+){
+    fun findAllMemberByRoomId(roomId: String): MutableList<Member> {
         return queryFactory
             .select(member)
             .from(member)
@@ -22,7 +20,7 @@ class ChatMemberSupportImpl(
             .fetch()
     }
 
-    override fun findMemberByMemberIdAndRoomId(memberId: Long, roomId: String): Member? {
+    fun findMemberByMemberIdAndRoomId(memberId: Long, roomId: String): Member? {
         return queryFactory
             .select(member)
             .from(chatMember)

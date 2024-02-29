@@ -2,10 +2,8 @@ package com.example.chatcenter.api.chat.service
 
 import com.example.chatcenter.api.chat.domain.entity.ChatMember
 import com.example.chatcenter.api.chat.repository.ChatMemberRepository
-import com.example.chatcenter.api.chat.repository.support.ChatMemberSupportImpl
-import com.example.chatcenter.api.chat.repository.support.interfaces.ChatMemberSupport
+import com.example.chatcenter.api.chat.repository.custom.ChatMemberCustomRepository
 import com.example.chatcenter.api.member.domain.entity.Member
-import com.example.chatcenter.api.member.repository.MemberRepository
 import com.example.chatcenter.common.exception.ResponseException
 import com.example.chatcenter.common.http.constant.ResponseCode
 import org.springframework.stereotype.Service
@@ -13,7 +11,7 @@ import org.springframework.stereotype.Service
 @Service
 class ChatMemberService(
     private val chatMemberRepository: ChatMemberRepository,
-    private val chatMemberSupport: ChatMemberSupportImpl,
+    private val chatMemberSupport: ChatMemberCustomRepository,
 ) {
 
     fun add(userId: Long, roomId: String) {

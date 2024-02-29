@@ -13,9 +13,15 @@ class MemberController(private val memberService: MemberService) {
     val log = logger()
 
     @GetMapping("/{username}")
-    fun findUser(@PathVariable username: String): ResponseEntity<Response> {
-        val member = memberService.findMemberDto(username)
-        return ResponseCode.SUCCESS.toResponse(member)
+    fun select(@PathVariable username: String): ResponseEntity<Response> {
+        return ResponseCode.SUCCESS.toResponse(memberService.findMemberDto(username))
     }
+
+    @GetMapping("")
+    fun selectList(): ResponseEntity<Response> {
+        return ResponseCode.SUCCESS.toResponse(memberService.findMemberDtoList())
+    }
+
+
 
 }

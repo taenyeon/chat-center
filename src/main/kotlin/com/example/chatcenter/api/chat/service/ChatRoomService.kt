@@ -4,7 +4,7 @@ import com.example.chatcenter.api.chat.domain.entity.ChatMember
 import com.example.chatcenter.api.chat.domain.entity.ChatRoom
 import com.example.chatcenter.api.chat.repository.ChatMemberRepository
 import com.example.chatcenter.api.chat.repository.ChatRoomRepository
-import com.example.chatcenter.api.chat.repository.support.ChatRoomSupportImpl
+import com.example.chatcenter.api.chat.repository.custom.ChatRoomCustomRepository
 import com.example.chatcenter.common.exception.ResponseException
 import com.example.chatcenter.common.http.constant.ResponseCode
 import org.springframework.data.repository.findByIdOrNull
@@ -15,7 +15,7 @@ import java.util.UUID
 class ChatRoomService(
     private val chatRoomRepository: ChatRoomRepository,
     private val chatMemberRepository: ChatMemberRepository,
-    private val chatRoomSupport: ChatRoomSupportImpl
+    private val chatRoomSupport: ChatRoomCustomRepository
 ) {
 
     fun select(roomId: String): ChatRoom {
