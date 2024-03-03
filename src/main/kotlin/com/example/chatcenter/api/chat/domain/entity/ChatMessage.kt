@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.mongodb.core.mapping.MongoId
 import java.time.LocalDateTime
 
-@Document(collation = "message")
+@Document(collection = "message")
 class ChatMessage(
     @MongoId
     var id: String?,
