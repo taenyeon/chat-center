@@ -28,7 +28,7 @@ class ChatMessageService(
     ) {
         val message = ChatMessage(
             null,
-            ChatType.IMAGE,
+            ChatType.FILE,
             roomId,
             user().id,
             null,
