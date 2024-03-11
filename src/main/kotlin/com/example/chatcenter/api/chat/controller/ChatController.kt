@@ -6,6 +6,7 @@ import com.example.chatcenter.common.http.constant.ResponseCode
 import com.example.chatcenter.common.http.domain.Response
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @RequestMapping("/api/chat")
@@ -15,6 +16,14 @@ class ChatController(
     @PostMapping("")
     fun add(@RequestBody message: ChatMessage): ResponseEntity<Response> {
         return ResponseCode.SUCCESS.toResponse(chatMessageService.add(message))
+    }
+
+    @PostMapping("/file")
+    fun addFile(
+        @RequestPart roomId: String,
+        @RequestPart file: MultipartFile,
+    ): ResponseEntity<Response> {
+        return ResponseCode.SUCCESS.toResponse(chatMessageService.addFile(roomId, file))
     }
 
     @GetMapping("/{roomId}")

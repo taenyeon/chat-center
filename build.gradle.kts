@@ -78,6 +78,8 @@ dependencies {
     // MESSAGING
     implementation ("org.springframework.kafka:spring-kafka")
 
+    // IMAGE STORAGE
+    implementation("io.awspring.cloud:spring-cloud-starter-aws:2.3.1")
 }
 
 configurations.forEach {

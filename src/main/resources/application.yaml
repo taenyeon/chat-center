@@ -39,3 +39,15 @@ spring:
     bootstrap-servers: localhost:9092
     consumer:
       group-id: chat-center
+
+cloud:
+  aws:
+    credentials:
+      accessKey: ${aws-accessKey}
+      secretKey: ${aws-secretKey}
+    s3:
+      bucket: ${s3-bucket}
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
