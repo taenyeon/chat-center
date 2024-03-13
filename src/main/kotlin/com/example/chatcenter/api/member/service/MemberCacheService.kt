@@ -6,6 +6,7 @@ import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 import com.example.chatcenter.common.exception.ResponseException
 import com.example.chatcenter.common.http.constant.ResponseCode
+import org.springframework.cache.annotation.CacheEvict
 
 @Service
 class MemberCacheService(
@@ -13,8 +14,12 @@ class MemberCacheService(
 ) {
 
     @Cacheable(value = ["member"], key = "#id")
-    fun findMember(id: Long): Member {
+    fun find(id: Long): Member {
         return memberRepository.findById(id)
             .orElseThrow { ResponseException(ResponseCode.NOT_FOUND_ERROR) }
+    }
+
+    @CacheEvict(value = ["member"], key = "#id")
+    fun drop(id: Long) {
     }
 }

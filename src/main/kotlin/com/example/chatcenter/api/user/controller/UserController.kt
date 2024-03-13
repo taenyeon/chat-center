@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*
 import com.example.chatcenter.api.user.domain.dto.JoinRequest
 import com.example.chatcenter.api.user.domain.dto.JwtToken
 import com.example.chatcenter.api.user.domain.dto.LoginRequest
+import com.example.chatcenter.api.user.domain.dto.UpdateRequest
 import com.example.chatcenter.api.user.service.UserService
 import com.example.chatcenter.common.exception.ResponseException
 import com.example.chatcenter.common.function.logger
@@ -29,6 +30,11 @@ class UserController(
         return ResponseCode.SUCCESS.toResponse(userService.join(joinRequest))
     }
 
+    @PutMapping("")
+    fun update(@RequestBody updateRequest: UpdateRequest): ResponseEntity<Response> {
+        return ResponseCode.SUCCESS.toResponse(userService.update(updateRequest))
+    }
+
     @PostMapping("/login")
     fun login(@RequestBody loginRequest: LoginRequest): ResponseEntity<Response> {
         return ResponseCode.SUCCESS.toResponse(userService.login(loginRequest))
@@ -36,9 +42,7 @@ class UserController(
 
     @DeleteMapping("/logout")
     fun logout(): ResponseEntity<Response> {
-        val user = user()
-        log.info("logoutUser - id : ${user.id}")
-        userService.logout(user.id!!)
+        userService.logout()
         return ResponseCode.SUCCESS.toResponse()
     }
 

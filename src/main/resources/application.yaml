@@ -43,10 +43,10 @@ spring:
 cloud:
   aws:
     credentials:
-      accessKey: ${aws-accessKey}
-      secretKey: ${aws-secretKey}
+      accessKey: AKIAXYKJXCTJN26FPCRT
+      secretKey: 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
     s3:
-      bucket: ${s3-bucket}
+      bucket: chat-app-image-storage
     region:
       static: ap-northeast-2
     stack:

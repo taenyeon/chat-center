@@ -4,6 +4,7 @@ import com.example.chatcenter.api.member.domain.mapper.MemberDtoMapper
 import com.example.chatcenter.api.member.domain.dto.MemberDto
 import com.example.chatcenter.api.member.domain.entity.Member
 import com.example.chatcenter.api.member.repository.MemberRepository
+import com.example.chatcenter.api.user.domain.dto.UpdateRequest
 import org.mapstruct.factory.Mappers
 import org.springframework.stereotype.Service
 import com.example.chatcenter.common.exception.ResponseException
@@ -15,6 +16,7 @@ import org.springframework.data.repository.findByIdOrNull
 @Service
 class MemberService(
     private val memberRepository: MemberRepository,
+    private val memberCacheService: MemberCacheService,
 ) {
     val log = logger()
 
@@ -72,5 +74,11 @@ class MemberService(
             .map { member -> memberDtoMapper.toDto(member) }
     }
 
+    fun update(id:Long, update:UpdateRequest){
+        val member = findMember(id)
+        val merge = memberDtoMapper.merge(member, update)
+        memberRepository.save(merge)
+        memberCacheService.drop(id)
+    }
 
 }
