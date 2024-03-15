@@ -18,7 +18,7 @@ class ChatRoomController(
 
     @PostMapping("")
     fun add(@RequestBody roomAddRequest: RoomAddRequest): ResponseEntity<Response> {
-        return ResponseCode.SUCCESS.toResponse(chatRoomService.add(user().id!!, roomAddRequest.roomName))
+        return ResponseCode.SUCCESS.toResponse(chatRoomService.add(user().id!!, roomAddRequest))
     }
 
     @GetMapping("/{roomId}")

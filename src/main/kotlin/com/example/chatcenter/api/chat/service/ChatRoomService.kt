@@ -1,5 +1,6 @@
 package com.example.chatcenter.api.chat.service
 
+import com.example.chatcenter.api.chat.domain.dto.RoomAddRequest
 import com.example.chatcenter.api.chat.domain.entity.ChatMember
 import com.example.chatcenter.api.chat.domain.entity.ChatRoom
 import com.example.chatcenter.api.chat.repository.ChatMemberRepository
@@ -37,23 +38,23 @@ class ChatRoomService(
     }
 
 
-    fun add(userId: Long, name: String): String {
+    fun add(userId: Long, roomAddRequest: RoomAddRequest): String {
+
         // create room
         val roomId = UUID.randomUUID().toString()
-        val chatRoom = ChatRoom(roomId, name, userId)
+        val chatRoom = ChatRoom(roomId, roomAddRequest.roomName, userId)
         chatRoomRepository.save(chatRoom)
 
         //  init member
         val chatMember = ChatMember(null, userId, roomId)
         chatMemberRepository.save(chatMember)
-        return roomId
-    }
 
-    fun add(userId: Long, name: String, memberIds: MutableList<Long>): String {
-        val roomId = add(userId, name)
-        memberIds.forEach { memberId: Long ->
-            chatMemberRepository.save(ChatMember(null, memberId, roomId))
+        // init selectedMembers
+        roomAddRequest.selectedMembers.forEach { memberId ->
+            val selectedChatMember = ChatMember(null, memberId, roomId)
+            chatMemberRepository.save(selectedChatMember)
         }
+
         return roomId
     }
 
