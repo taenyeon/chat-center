@@ -4,6 +4,7 @@ import com.example.chatcenter.api.member.service.MemberService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import com.example.chatcenter.common.function.logger
+import com.example.chatcenter.common.function.user
 import com.example.chatcenter.common.http.constant.ResponseCode
 import com.example.chatcenter.common.http.domain.Response
 
@@ -19,7 +20,7 @@ class MemberController(private val memberService: MemberService) {
 
     @GetMapping("")
     fun selectList(): ResponseEntity<Response> {
-        return ResponseCode.SUCCESS.toResponse(memberService.findMemberDtoList())
+        return ResponseCode.SUCCESS.toResponse(memberService.findMemberDtoList(user().id!!))
     }
 
 

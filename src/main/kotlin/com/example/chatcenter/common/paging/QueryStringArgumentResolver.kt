@@ -1,5 +1,6 @@
 package com.example.chatcenter.common.paging
 
+import com.example.chatcenter.common.function.logger
 import com.example.chatcenter.common.paging.annotation.QueryString
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.servlet.http.HttpServletRequest
@@ -24,6 +25,7 @@ class QueryStringArgumentResolver : HandlerMethodArgumentResolver {
         binderFactory: WebDataBinderFactory?
     ): Any? {
         val request: HttpServletRequest = webRequest.getNativeRequest(HttpServletRequest::class.java)!!
+        val log = logger()
         val queryStringJson = queryStringToJson(request.queryString)
         return objectMapper.readValue(queryStringJson, parameter.parameterType)
     }

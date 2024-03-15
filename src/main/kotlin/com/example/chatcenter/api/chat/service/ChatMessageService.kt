@@ -7,7 +7,9 @@ import com.example.chatcenter.common.exception.ResponseException
 import com.example.chatcenter.common.function.user
 import com.example.chatcenter.common.http.constant.ResponseCode
 import com.example.chatcenter.common.message.kafka.Producer
+import com.example.chatcenter.common.paging.dto.Page
 import com.example.chatcenter.common.util.FileUtil
+import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
@@ -45,8 +47,9 @@ class ChatMessageService(
             ?: throw ResponseException(ResponseCode.NOT_FOUND_ERROR)
     }
 
-    fun selectList(roomId: String): List<ChatMessage> {
-        return chatMessageRepository.findAllByRoomId(roomId)
+    fun selectList(roomId: String, page: Page): List<ChatMessage> {
+        val pageable = page.request()
+        return chatMessageRepository.findAllByRoomIdOrderByCreatedAt(roomId, pageable)
     }
 
     fun selectList(roomId: String, memberId: Long): List<ChatMessage> {

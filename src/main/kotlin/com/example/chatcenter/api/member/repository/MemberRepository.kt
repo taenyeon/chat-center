@@ -10,4 +10,6 @@ interface MemberRepository : JpaRepository<Member, Long> {
 
     fun findByUsername(username: String?): Member?
 
+    fun findAllByIdIsNot(id: Long): MutableList<Member>
+
 }

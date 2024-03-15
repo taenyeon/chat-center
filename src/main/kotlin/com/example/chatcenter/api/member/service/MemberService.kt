@@ -69,12 +69,12 @@ class MemberService(
         return memberDtoMapper.toDto(findMember(id))
     }
 
-    fun findMemberDtoList(): List<MemberDto> {
-        return memberRepository.findAll()
+    fun findMemberDtoList(id: Long): List<MemberDto> {
+        return memberRepository.findAllByIdIsNot(id)
             .map { member -> memberDtoMapper.toDto(member) }
     }
 
-    fun update(id:Long, update:UpdateRequest){
+    fun update(id: Long, update: UpdateRequest) {
         val member = findMember(id)
         val merge = memberDtoMapper.merge(member, update)
         memberRepository.save(merge)

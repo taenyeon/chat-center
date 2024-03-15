@@ -4,6 +4,8 @@ import com.example.chatcenter.api.chat.domain.entity.ChatMessage
 import com.example.chatcenter.api.chat.service.ChatMessageService
 import com.example.chatcenter.common.http.constant.ResponseCode
 import com.example.chatcenter.common.http.domain.Response
+import com.example.chatcenter.common.paging.annotation.QueryString
+import com.example.chatcenter.common.paging.dto.Page
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
@@ -27,8 +29,8 @@ class ChatController(
     }
 
     @GetMapping("/{roomId}")
-    fun selectList(@PathVariable roomId: String): ResponseEntity<Response> {
-        return ResponseCode.SUCCESS.toResponse(chatMessageService.selectList(roomId));
+    fun selectList(@PathVariable roomId: String, @QueryString page: Page): ResponseEntity<Response> {
+        return ResponseCode.SUCCESS.toResponse(chatMessageService.selectList(roomId, page))
     }
 
     @GetMapping("/time")
