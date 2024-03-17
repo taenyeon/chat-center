@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort
 class Page {
     var currentPage : Int = 0
     var searchSize : Int = 10
+    var isEnd: Boolean = false;
 
     constructor()
     constructor(currentPage : Int, searchSize: Int) {
